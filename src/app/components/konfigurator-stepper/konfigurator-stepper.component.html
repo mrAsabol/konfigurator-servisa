@@ -1,4 +1,3 @@
-<p>konfigurator-stepper works!</p>
  <mat-horizontal-stepper linear>
     <mat-step [stepControl]="formGroup1" >
       <form [formGroup]="formGroup1">
@@ -15,7 +14,7 @@
         <form [formGroup]="formGroup2">
           <ng-template matStepLabel>Korak 2. Odaberite jednu ili više usluga za koje ste</ng-template>
           <div class="checkbox-selectors">
-            <mat-checkbox (change)="checkCheckBoxvalue($event)" color="primary" class="checkbox-btn" *ngFor="let item of serviceArray" value="{{item.price}}" formControlName="secondCtrl" required>{{item.name}} ({{item.price}} kn)</mat-checkbox>
+            <mat-checkbox (change)="checkCheckBoxvalue($event)" color="primary" class="checkbox-btn" *ngFor="let item of serviceArray" value="{{item.price}}" name="{{item.name}}" formControlName="secondCtrl" required>{{item.name}} ({{item.price}} kn)</mat-checkbox>
           </div>
           <div class="suma">
               <div class="coupon" *ngIf="!isCouponDisplayed">
@@ -32,20 +31,68 @@
                 <h4>OSNOVICA: {{serviceSum}} KN</h4>
                 <h4>Popust (30%): -{{serviceDiscount}}KN</h4>
               </div>
-            <h3 *ngIf="serviceSumDiscounted != null">Ukupno: {{serviceSumDiscounted}} KN</h3>
+            <h3 *ngIf="serviceSumDiscounted != null">Ukupno: {{serviceSumDiscounted | number:'1.2-2' }} KN</h3>
           </div>
           <div>
             <button mat-raised-button matStepperPrevious color="primary">Nazad</button>
             <button mat-raised-button matStepperNext color="primary">Dalje</button>
           </div>
         </form>
-      </mat-step>
+    </mat-step>
+    <mat-step [stepControl]="formGroup3" >
+        <form [formGroup]="formGroup3">
+            <ng-template matStepLabel>Korak 3. Vaši kontakt podaci</ng-template>
+            <mat-form-field class="form-field">
+                <mat-label>Ime i prezime</mat-label>
+                <input matInput required formControlName="thirdCtrl">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-field">
+                <mat-label>Email adresa</mat-label>
+                <input type="email" matInput required formControlName="thirdCtrl">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-field">
+                <mat-label>Broj telefona</mat-label>
+                <input type="number" matInput required formControlName="thirdCtrl">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="example-full-width">
+                <textarea rows="4" matInput placeholder="Napomena (opcionalno)"></textarea>
+            </mat-form-field>
+            <div>
+                <button mat-raised-button matStepperPrevious color="primary">Nazad</button>
+                <button mat-raised-button matStepperNext color="primary">Dalje</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step>
+        <div class="dataOverview">
+            <p>Molimo vas da još jednom pregledate i potvrdite unesene podatke. Ukoliko želite promijeniti neki od podataka, možete pritisnuti
+               gumb za uređivanje pored svake od kategorija. Kada ste provjerili i potvrdili ispravnost svojih podataka pristisnite gumb pošalji na dnu, 
+               za slanje upita za servis.
+            </p>
+            <!-- <table>
+                <tr>
+                    <th>MODEL VOZILA</th><button mat-raised-button color="primary">Uredi</button>
+                    <td>test</td>
+                </tr>
+                <tr>
+                    <th>ODABRANE USLUGE</th><button mat-raised-button color="primary">Uredi</button>
+                    <td *ngFor="let item of items">test</td>
+                </tr>
+            </table> -->
+        </div>
+        <div>
+            <button mat-raised-button matStepperPrevious color="primary">Nazad</button>
+            <button mat-raised-button matStepperNext color="primary">Dalje</button>
+        </div>
+    </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
       <p>You are now done.</p>
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
       </div>
     </mat-step>
   </mat-horizontal-stepper>

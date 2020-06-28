@@ -9,6 +9,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class KonfiguratorStepperComponent implements OnInit {
   formGroup1: FormGroup;
   formGroup2: FormGroup;
+  formGroup3: FormGroup;
+
   serviceSum: number = null;
   serviceSumDiscounted = this.serviceSum;
   serviceDiscount: number;
@@ -51,6 +53,9 @@ export class KonfiguratorStepperComponent implements OnInit {
     this.formGroup2 = this.formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
+    this.formGroup3 = this.formBuilder.group({
+      thirdCtrl: ['', Validators.required]
+    });
   }
 
   public diplayCoupon() {
@@ -72,11 +77,14 @@ export class KonfiguratorStepperComponent implements OnInit {
     if (event.checked){
       this.serviceSum += +event.source.value;
       this.serviceSumDiscounted = this.serviceSum;
+      //TODO: implement interface
+      // this.selectedServices.name = event.source.name;
+      // this.selectedServices.price = event.source.value;
+      // console.log(this.selectedServices);
     } else {
       this.serviceSum -= +event.source.value;
       this.serviceSumDiscounted = this.serviceSum;
     }
-    console.log(this.serviceSum);
   }
 
 }
