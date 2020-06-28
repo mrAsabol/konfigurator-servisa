@@ -1,0 +1,51 @@
+<p>konfigurator-stepper works!</p>
+ <mat-horizontal-stepper linear>
+    <mat-step [stepControl]="formGroup1" >
+      <form [formGroup]="formGroup1">
+        <ng-template matStepLabel>Korak 1. Odaberite proizvođača vašeg vozila</ng-template>
+        <mat-radio-group formControlName="firstCtrl" required>
+            <mat-radio-button class="radio-btm" color="primary" value="{{item.name}}" *ngFor="let item of carArray">{{item.name}}</mat-radio-button>
+          </mat-radio-group>
+        <div>
+          <button mat-raised-button matStepperNext color="primary">Dalje</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="formGroup2" >
+        <form [formGroup]="formGroup2">
+          <ng-template matStepLabel>Korak 2. Odaberite jednu ili više usluga za koje ste</ng-template>
+          <div class="checkbox-selectors">
+            <mat-checkbox (change)="checkCheckBoxvalue($event)" color="primary" class="checkbox-btn" *ngFor="let item of serviceArray" value="{{item.price}}" formControlName="secondCtrl" required>{{item.name}} ({{item.price}} kn)</mat-checkbox>
+          </div>
+          <div class="suma">
+              <div class="coupon" *ngIf="!isCouponDisplayed">
+                <button mat-button color="primary" (click)="diplayCoupon()">Imam kupon</button>
+              </div>
+              <div class="coupon-input" *ngIf="isCouponDisplayed">
+                <form (submit)="validateCoupon()">
+                    <input [(ngModel)]="couponValue" name="couponValue">
+                    <button mat-raised-button type="submit" color="primary">Primjeni</button>
+                 </form>
+              </div>
+              <p>{{couponMsg}}</p>
+              <div class="couponMessage" *ngIf="isCouponValid">
+                <h4>OSNOVICA: {{serviceSum}} KN</h4>
+                <h4>Popust (30%): -{{serviceDiscount}}KN</h4>
+              </div>
+            <h3 *ngIf="serviceSumDiscounted != null">Ukupno: {{serviceSumDiscounted}} KN</h3>
+          </div>
+          <div>
+            <button mat-raised-button matStepperPrevious color="primary">Nazad</button>
+            <button mat-raised-button matStepperNext color="primary">Dalje</button>
+          </div>
+        </form>
+      </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <!-- <button mat-button (click)="stepper.reset()">Reset</button> -->
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
