@@ -3,7 +3,7 @@
       <form [formGroup]="formGroup1">
         <ng-template matStepLabel>Korak 1. Odaberite proizvođača vašeg vozila</ng-template>
         <mat-radio-group formControlName="firstCtrl" required>
-            <mat-radio-button class="radio-btm" color="primary" value="{{item.name}}" *ngFor="let item of carArray">{{item.name}}</mat-radio-button>
+            <mat-radio-button class="radio-btm" color="primary" value="{{item.name}}" *ngFor="let item of carArray" (change)="getSelectedRadio($event)" >{{item.name}}</mat-radio-button>
           </mat-radio-group>
         <div>
           <button mat-raised-button matStepperNext color="primary">Dalje</button>
@@ -40,29 +40,30 @@
         </form>
     </mat-step>
     <mat-step [stepControl]="formGroup3" >
-        <form [formGroup]="formGroup3">
+        <form [formGroup]="formGroup3" (submit)="saveContactData()">
             <ng-template matStepLabel>Korak 3. Vaši kontakt podaci</ng-template>
             <mat-form-field class="form-field">
                 <mat-label>Ime i prezime</mat-label>
-                <input matInput required formControlName="thirdCtrl">
+                <input matInput required formControlName="nameCtrl"  name="name">
             </mat-form-field>
             <br>
             <mat-form-field class="form-field">
                 <mat-label>Email adresa</mat-label>
-                <input type="email" matInput required formControlName="thirdCtrl">
+                <input type="email" matInput required formControlName="emailCtrl"  name="email">
             </mat-form-field>
             <br>
             <mat-form-field class="form-field">
                 <mat-label>Broj telefona</mat-label>
-                <input type="number" matInput required formControlName="thirdCtrl">
+                <input type="number" matInput required formControlName="phoneCtrl"  name="phone">
             </mat-form-field>
             <br>
             <mat-form-field class="example-full-width">
-                <textarea rows="4" matInput placeholder="Napomena (opcionalno)"></textarea>
+              <mat-label>Napomena (opcionalno)</mat-label>
+              <input type="text" matInput formControlName="messageCtrl" name="message">
             </mat-form-field>
             <div>
                 <button mat-raised-button matStepperPrevious color="primary">Nazad</button>
-                <button mat-raised-button matStepperNext color="primary">Dalje</button>
+                <button mat-raised-button matStepperNext color="primary" type="submit">Dalje</button>
             </div>
         </form>
     </mat-step>
@@ -72,27 +73,47 @@
                gumb za uređivanje pored svake od kategorija. Kada ste provjerili i potvrdili ispravnost svojih podataka pristisnite gumb pošalji na dnu, 
                za slanje upita za servis.
             </p>
-            <!-- <table>
+            <div class="block">
+              <h2>MODEL VOZILA</h2>
+              <button mat-raised-button color="primary">Uredi</button>
+              <h4>{{selectedModel}}</h4>
+            </div>
+            <div class="block">
+              <h2>ODABRANE USLUGE</h2>
+              <button mat-raised-button color="primary">Uredi</button>
+              <ul>
+                <li *ngFor="let item of selectedServicesArray">{{item.name}} {{item.price}}KN</li>
+                <br>
+                <li *ngIf="isCouponValid">Popust (30%): -{{serviceDiscount}}KN</li>
+                <li>Ukupno: {{serviceSumDiscounted | number:'1.2-2' }} KN</li>
+              </ul>
+            </div>
+            <hr>
+            <div class="bottomBlock">
+              <h2>KONTAKT PODACI</h2>
+              <button mat-raised-button color="primary">Uredi</button>
+              <table>
                 <tr>
-                    <th>MODEL VOZILA</th><button mat-raised-button color="primary">Uredi</button>
-                    <td>test</td>
+                  <td>Ime i prezime: {{nameValue}}</td>
+                  <td>Broj telefona: {{phoneValue}}</td>
                 </tr>
                 <tr>
-                    <th>ODABRANE USLUGE</th><button mat-raised-button color="primary">Uredi</button>
-                    <td *ngFor="let item of items">test</td>
+                  <td>Email adresa:{{emailValue}}</td>
+                  <td>Napomena: {{messageValue}}</td>
                 </tr>
-            </table> -->
-        </div>
-        <div>
+              </table>
+            </div>
+            <hr>
             <button mat-raised-button matStepperPrevious color="primary">Nazad</button>
-            <button mat-raised-button matStepperNext color="primary">Dalje</button>
+            <button mat-raised-button matStepperNext color="primary">Pošalji</button>
         </div>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
-      <p>You are now done.</p>
+      <h4>Vaša prijava je uspješno poslana</h4>
+      <p>Vaša prijava je uspješno poslana i zaprimljena. Kontaktirati ćemo vas u najkraćem mogućem roku. Hvala vam.</p>
       <div>
-        <button mat-button matStepperPrevious>Back</button>
+        <button mat-raised-button color="warn">Zatvori</button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>

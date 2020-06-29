@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { ISelectedServices } from '../../selected-services';
 
 @Component({
   selector: 'app-konfigurator-stepper',
@@ -19,6 +20,18 @@ export class KonfiguratorStepperComponent implements OnInit {
   displayedSum = false;
   couponValue: any;
   couponMsg: string;
+  nameValue: string;
+  emailValue: string;
+  phoneValue: number;
+  messageValue: any = '';
+
+  selectedModel: string;
+  public selectedServices: ISelectedServices = {
+    name: '',
+    price: null,
+  };
+
+  selectedServicesArray: any[] = [];
 
   public carArray = [
     {name: 'Peugeot'},
@@ -54,7 +67,10 @@ export class KonfiguratorStepperComponent implements OnInit {
       secondCtrl: ['', Validators.required]
     });
     this.formGroup3 = this.formBuilder.group({
-      thirdCtrl: ['', Validators.required]
+      nameCtrl: ['', Validators.required],
+      emailCtrl: ['', Validators.required],
+      phoneCtrl: ['', Validators.required],
+      messageCtrl: ['']
     });
   }
 
@@ -77,14 +93,24 @@ export class KonfiguratorStepperComponent implements OnInit {
     if (event.checked){
       this.serviceSum += +event.source.value;
       this.serviceSumDiscounted = this.serviceSum;
-      //TODO: implement interface
-      // this.selectedServices.name = event.source.name;
-      // this.selectedServices.price = event.source.value;
-      // console.log(this.selectedServices);
+      this.selectedServices.name = event.source.name;
+      this.selectedServices.price = event.source.value;
+      this.selectedServicesArray.push(this.selectedServices);
     } else {
       this.serviceSum -= +event.source.value;
       this.serviceSumDiscounted = this.serviceSum;
     }
   }
+
+  getSelectedRadio(e){
+   this.selectedModel = e.value;
+ }
+
+ saveContactData(){
+   this.nameValue = this.formGroup3.get('nameCtrl').value;
+   this.emailValue = this.formGroup3.get('emailCtrl').value;
+   this.phoneValue = this.formGroup3.get('phoneCtrl').value;
+   this.messageValue = this.formGroup3.get('messageCtrl').value;
+ }
 
 }
