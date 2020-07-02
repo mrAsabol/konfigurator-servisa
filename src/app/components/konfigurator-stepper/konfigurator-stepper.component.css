@@ -1,5 +1,13 @@
-h3 {
-    color: #FFF;
+* {
+  color: #FFF
+}
+
+input {
+  color: #1d1d1d;
+}
+
+button {
+  margin: 6px;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -12,4 +20,117 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.stepper-container {
+  height: auto;
+  width: 80%;
+  position: relative;
+  margin: auto auto;
+}
+
+.step-group {
+  display: block;
+  text-align: center;
+  position: relative;
+  height: 200px;
+  padding: 15px;
+}
+
+.radio-btn {
+  margin: 5px;
+}
+
+::ng-deep .mat-horizontal-content-container {
+  height: inherit;
+  padding: 0 !important;
+
+}
+
+.nextBtn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.sum-container {
+  text-align: right;
+  margin-right: 15px;
+}
+
+.step-btn-group {
+  position: relative;
+  margin: 15px;
+  text-align: right;
+}
+
+.contact-form {
+  width: 80%;
+  position: relative;
+  text-align: center;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.form-field {
+  display: block;
+}
+
+.dataOverview {
+  display: block;
+  text-align: center;
+  position: relative;
+  padding: 15px;
+}
+
+.top-text {
+  width: 90%;
+  margin: auto;
+  text-align: left;
+}
+
+.success-class {
+  color: #06aa00;
+}
+
+.error-class {
+  color: #ff0202;
+}
+
+.text-area {
+  color:#FFF
+}
+
+.block-container {
+  display: flex;
+}
+
+.left-block {
+  flex: 0 0 50%;
+}
+
+.right-block {
+  flex: 1;
+}
+
+.right-block li {
+  list-style: none;
+}
+
+.dataOverview h3 {
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.dataOverview .edit-btn {
+  font-size: 1.17em;
+}
+
+.dataOverview table {
+  margin: auto;
+  text-align: left;
+}
+
+.dataOverview table td {
+  margin: 15px;
 }

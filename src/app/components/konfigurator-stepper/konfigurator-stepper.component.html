@@ -1,22 +1,22 @@
- <mat-horizontal-stepper linear>
+ <mat-horizontal-stepper linear class="stepper-container" #stepper>
     <mat-step [stepControl]="formGroup1" >
       <form [formGroup]="formGroup1">
         <ng-template matStepLabel>Korak 1. Odaberite proizvođača vašeg vozila</ng-template>
-        <mat-radio-group formControlName="firstCtrl" required>
-            <mat-radio-button class="radio-btm" color="primary" value="{{item.name}}" *ngFor="let item of carArray" (change)="getSelectedRadio($event)" >{{item.name}}</mat-radio-button>
+        <mat-radio-group formControlName="firstCtrl" required class="step-group">
+            <mat-radio-button class="radio-btn" color="primary" value="{{item.name}}" *ngFor="let item of carArray" (change)="getSelectedRadio($event)" >{{item.name}}</mat-radio-button>
           </mat-radio-group>
         <div>
-          <button mat-raised-button matStepperNext color="primary">Dalje</button>
+          <button mat-raised-button matStepperNext color="primary" class="nextBtn">Dalje</button>
         </div>
       </form>
     </mat-step>
     <mat-step [stepControl]="formGroup2" >
         <form [formGroup]="formGroup2">
           <ng-template matStepLabel>Korak 2. Odaberite jednu ili više usluga za koje ste</ng-template>
-          <div class="checkbox-selectors">
-            <mat-checkbox (change)="checkCheckBoxvalue($event)" color="primary" class="checkbox-btn" *ngFor="let item of serviceArray" value="{{item.price}}" name="{{item.name}}" formControlName="secondCtrl" required>{{item.name}} ({{item.price}} kn)</mat-checkbox>
+          <div class="step-group">
+            <mat-checkbox (change)="checkCheckBoxvalue($event)" color="primary" class="radio-btn" *ngFor="let item of serviceArray" value="{{item.price}}" name="{{item.name}}" formControlName="secondCtrl" required>{{item.name}} ({{item.price}} kn)</mat-checkbox>
           </div>
-          <div class="suma">
+          <div class="sum-container">
               <div class="coupon" *ngIf="!isCouponDisplayed">
                 <button mat-button color="primary" (click)="diplayCoupon()">Imam kupon</button>
               </div>
@@ -26,21 +26,21 @@
                     <button mat-raised-button type="submit" color="primary">Primjeni</button>
                  </form>
               </div>
-              <p>{{couponMsg}}</p>
+              <p [className]="couponValue === 'Tokić123' ? 'success-class' : 'error-class' ">{{couponMsg}}</p>
               <div class="couponMessage" *ngIf="isCouponValid">
                 <h4>OSNOVICA: {{serviceSum}} KN</h4>
                 <h4>Popust (30%): -{{serviceDiscount}}KN</h4>
               </div>
             <h3 *ngIf="serviceSumDiscounted != null">Ukupno: {{serviceSumDiscounted | number:'1.2-2' }} KN</h3>
           </div>
-          <div>
+          <div class="step-btn-group">
             <button mat-raised-button matStepperPrevious color="primary">Nazad</button>
             <button mat-raised-button matStepperNext color="primary">Dalje</button>
           </div>
         </form>
     </mat-step>
     <mat-step [stepControl]="formGroup3" >
-        <form [formGroup]="formGroup3" (submit)="saveContactData()">
+        <form [formGroup]="formGroup3" (submit)="saveContactData()" class="contact-form">
             <ng-template matStepLabel>Korak 3. Vaši kontakt podaci</ng-template>
             <mat-form-field class="form-field">
                 <mat-label>Ime i prezime</mat-label>
@@ -57,9 +57,9 @@
                 <input type="number" matInput required formControlName="phoneCtrl"  name="phone">
             </mat-form-field>
             <br>
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="form-field">
               <mat-label>Napomena (opcionalno)</mat-label>
-              <input type="text" matInput formControlName="messageCtrl" name="message">
+              <input class="text-area" type="text" matInput formControlName="messageCtrl" name="message">
             </mat-form-field>
             <div>
                 <button mat-raised-button matStepperPrevious color="primary">Nazad</button>
@@ -68,30 +68,33 @@
         </form>
     </mat-step>
     <mat-step>
+      <ng-template matStepLabel>Korak 4. Pregled i potvrda vašeg odabira</ng-template>
         <div class="dataOverview">
-            <p>Molimo vas da još jednom pregledate i potvrdite unesene podatke. Ukoliko želite promijeniti neki od podataka, možete pritisnuti
+            <p class="top-text">Molimo vas da još jednom pregledate i potvrdite unesene podatke. Ukoliko želite promijeniti neki od podataka, možete pritisnuti
                gumb za uređivanje pored svake od kategorija. Kada ste provjerili i potvrdili ispravnost svojih podataka pristisnite gumb pošalji na dnu, 
                za slanje upita za servis.
             </p>
-            <div class="block">
-              <h2>MODEL VOZILA</h2>
-              <button mat-raised-button color="primary">Uredi</button>
-              <h4>{{selectedModel}}</h4>
-            </div>
-            <div class="block">
-              <h2>ODABRANE USLUGE</h2>
-              <button mat-raised-button color="primary">Uredi</button>
-              <ul>
-                <li *ngFor="let item of selectedServicesArray">{{item.name}} {{item.price}}KN</li>
-                <br>
-                <li *ngIf="isCouponValid">Popust (30%): -{{serviceDiscount}}KN</li>
-                <li>Ukupno: {{serviceSumDiscounted | number:'1.2-2' }} KN</li>
-              </ul>
+            <div class="block-container">
+              <div class="left-block">
+                <h3>MODEL VOZILA</h3>
+                <button mat-raised-button color="primary" (click)="editStepOne(stepper)" class="editBtn">Uredi</button>
+                <h4>{{selectedModel}}</h4>
+              </div>
+              <div class="right-block">
+                <h3>ODABRANE USLUGE</h3>
+                <button mat-raised-button color="primary" (click)="editStepTwo(stepper)" class="editBtn">Uredi</button>
+                <ul>
+                  <li *ngFor="let item of selectedServicesArray">{{item.name}} {{item.price}}KN</li>
+                  <br>
+                  <li *ngIf="isCouponValid">Popust (30%): -{{serviceDiscount}}KN</li>
+                  <li>Ukupno: {{serviceSumDiscounted | number:'1.2-2' }} KN</li>
+                </ul>
+              </div>
             </div>
             <hr>
             <div class="bottomBlock">
-              <h2>KONTAKT PODACI</h2>
-              <button mat-raised-button color="primary">Uredi</button>
+              <h3>KONTAKT PODACI</h3>
+              <button mat-raised-button color="primary" (click)="editStepThree(stepper)"  class="editBtn">Uredi</button>
               <table>
                 <tr>
                   <td>Ime i prezime: {{nameValue}}</td>

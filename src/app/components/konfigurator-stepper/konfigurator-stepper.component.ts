@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { ISelectedServices } from '../../selected-services';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-konfigurator-stepper',
@@ -112,5 +113,18 @@ export class KonfiguratorStepperComponent implements OnInit {
    this.phoneValue = this.formGroup3.get('phoneCtrl').value;
    this.messageValue = this.formGroup3.get('messageCtrl').value;
  }
+
+ editStepOne(stepper: MatStepper){
+  stepper.selectedIndex = 0;
+ }
+
+ editStepTwo(stepper: MatStepper){
+  stepper.selectedIndex = 1;
+ }
+
+ editStepThree(stepper: MatStepper){
+  stepper.selectedIndex = 2;
+ }
+
 
 }
