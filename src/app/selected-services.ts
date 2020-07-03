@@ -1,4 +1,5 @@
-export interface ISelectedServices {
-    name: string;
-    price: number;
+export class SelectedServices
+{
+  name: string;
+  price: number;
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { ISelectedServices } from '../../selected-services';
 import { MatStepper } from '@angular/material/stepper';
+import { SelectedServices } from '../../selected-services';
 
 @Component({
   selector: 'app-konfigurator-stepper',
@@ -13,6 +13,7 @@ export class KonfiguratorStepperComponent implements OnInit {
   formGroup2: FormGroup;
   formGroup3: FormGroup;
 
+  displayStepper = false;
   serviceSum: number = null;
   serviceSumDiscounted = this.serviceSum;
   serviceDiscount: number;
@@ -25,13 +26,7 @@ export class KonfiguratorStepperComponent implements OnInit {
   emailValue: string;
   phoneValue: number;
   messageValue: any = '';
-
   selectedModel: string;
-  public selectedServices: ISelectedServices = {
-    name: '',
-    price: null,
-  };
-
   selectedServicesArray: any[] = [];
 
   public carArray = [
@@ -85,21 +80,34 @@ export class KonfiguratorStepperComponent implements OnInit {
       this.serviceDiscount = this.serviceSum * 0.30;
       this.serviceSumDiscounted = this.serviceSum * 0.70;
       this.couponMsg = 'Hvala vam, unijeli ste ispravan kod kupona';
-    }else {
+    }else if (this.couponValue && this.couponValue !== 'Tokić123') {
       this.couponMsg = 'Kupon nije ispravan!';
     }
+  }
+
+  onDisplayStepper(){
+    this.displayStepper = true;
   }
 
   checkCheckBoxvalue(event){
     if (event.checked){
       this.serviceSum += +event.source.value;
       this.serviceSumDiscounted = this.serviceSum;
-      this.selectedServices.name = event.source.name;
-      this.selectedServices.price = event.source.value;
-      this.selectedServicesArray.push(this.selectedServices);
+      this.validateCoupon();
+      const selectedArr = new SelectedServices();
+      selectedArr.name = event.source.name;
+      selectedArr.price = event.source.value;
+      this.selectedServicesArray.push(selectedArr);
+
     } else {
       this.serviceSum -= +event.source.value;
       this.serviceSumDiscounted = this.serviceSum;
+      this.validateCoupon();
+      for (let i = 0; i < this.selectedServicesArray.length; i++) {
+        if (this.selectedServicesArray[i].name === event.source.name) {
+          this.selectedServicesArray.splice(i, 1);
+        }
+      }
     }
   }
 

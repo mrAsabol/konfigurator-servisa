@@ -1,9 +1,18 @@
-* {
-  color: #FFF
+.stepper-open-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-input {
-  color: #1d1d1d;
+.stepper-container {
+  background-color: #f7f5f5;
+  border-radius: 8px;
+  top: 15vh;
+}
+
+.stepper-container .center-header {
+  text-align: center;
 }
 
 button {
@@ -103,6 +112,7 @@ input[type=number] {
 
 .block-container {
   display: flex;
+  margin-top: 20px;
 }
 
 .left-block {
@@ -115,6 +125,11 @@ input[type=number] {
 
 .right-block li {
   list-style: none;
+}
+
+.bottom-block {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .dataOverview h3 {
