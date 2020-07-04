@@ -52,6 +52,8 @@ export class KonfiguratorStepperComponent implements OnInit {
     {name: 'Zamjena ulja u kočnicama', price: 229},
   ];
 
+  public discountCode = 'Tokić123';
+
 
   constructor(public formBuilder: FormBuilder) {}
 
@@ -64,10 +66,14 @@ export class KonfiguratorStepperComponent implements OnInit {
     });
     this.formGroup3 = this.formBuilder.group({
       nameCtrl: ['', Validators.required],
-      emailCtrl: ['', Validators.required],
+      emailCtrl: ['', [Validators.required, Validators.email]],
       phoneCtrl: ['', Validators.required],
       messageCtrl: ['']
     });
+  }
+
+  get emailValidation() {
+    return this.formGroup3.get('emailCtrl');
   }
 
   public diplayCoupon() {
@@ -75,12 +81,12 @@ export class KonfiguratorStepperComponent implements OnInit {
   }
 
   public validateCoupon() {
-    if (this.couponValue === 'Tokić123') {
+    if (this.couponValue === this.discountCode) {
       this.isCouponValid = true;
       this.serviceDiscount = this.serviceSum * 0.30;
       this.serviceSumDiscounted = this.serviceSum * 0.70;
       this.couponMsg = 'Hvala vam, unijeli ste ispravan kod kupona';
-    }else if (this.couponValue && this.couponValue !== 'Tokić123') {
+    }else if (this.couponValue && this.couponValue !== this.discountCode) {
       this.couponMsg = 'Kupon nije ispravan!';
     }
   }

@@ -7,7 +7,7 @@
 
 .stepper-container {
   background-color: #f7f5f5;
-  border-radius: 8px;
+  border-radius: 12px;
   top: 15vh;
 }
 
@@ -106,8 +106,9 @@ input[type=number] {
   color: #ff0202;
 }
 
-.text-area {
-  color:#FFF
+.email-error {
+  color: #ff0202;
+  text-align: left;
 }
 
 .block-container {

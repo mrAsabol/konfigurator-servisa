@@ -29,7 +29,7 @@
                     <button mat-raised-button type="submit" color="accent">Primjeni</button>
                  </form>
               </div>
-              <p [className]="couponValue === 'Tokić123' ? 'success-class' : 'error-class' ">{{couponMsg}}</p>
+              <p [className]="couponValue === discountCode ? 'success-class' : 'error-class' ">{{couponMsg}}</p>
               <div class="couponMessage" *ngIf="isCouponValid">
                 <h4>OSNOVICA: {{serviceSum}} KN</h4>
                 <h4>Popust (30%): -{{serviceDiscount}}KN</h4>
@@ -53,8 +53,11 @@
             <br>
             <mat-form-field class="form-field">
                 <mat-label>Email adresa</mat-label>
-                <input type="email" matInput required formControlName="emailCtrl"  name="email">
+                <input type="email" matInput required formControlName="emailCtrl" name="email">
             </mat-form-field>
+            <div *ngIf="(emailValidation.invalid && emailValidation.touched) || emailValidation.dirty">
+              <p *ngIf="emailValidation.invalid" class="email-error">Molimo unesite ispravnu e-mail adresu</p>
+            </div>
             <br>
             <mat-form-field class="form-field">
                 <mat-label>Broj telefona</mat-label>
